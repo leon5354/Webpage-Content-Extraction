@@ -131,6 +131,6 @@ def run_scraper(url, competitor_name, amount_input):
 if __name__ == "__main__":
     url_to_scrape = 'https://www.travelex.co.uk/'
     competitor_name = 'Travelex'
-    # Define the 'amount of input' (e.g., the amount of base currency being exchanged)
     input_amount = '1000_GBP_Test'
     run_scraper(url_to_scrape, competitor_name, input_amount)
+
