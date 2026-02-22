@@ -1,0 +1,22 @@
+# output
+data/*.csv
+!data/.gitkeep
+
+# python
+__pycache__/
+*.py[cod]
+.env
+.venv/
+venv/
+
+# ide
+.vscode/
+.idea/
+*.swp
+
+# os
+.DS_Store
+Thumbs.db
+
+# chromedriver logs
+chromedriver.log

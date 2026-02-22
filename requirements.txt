@@ -1,0 +1,7 @@
+pandas>=2.0.0
+selenium>=4.0.0
+
+# ChromeDriver must be installed separately
+# Mac: brew install chromedriver
+# Ubuntu: sudo apt install chromium-chromedriver
+# Windows: download from https://chromedriver.chromium.org/

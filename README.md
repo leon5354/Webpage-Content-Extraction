@@ -1,25 +1,95 @@
-# Travelex-Rate
-FX Rate Tracker: Python ETL to Fun
-What This Does (Project Goal)
+# Webpage Content Extraction
 
-Simple: Get Exchange rate from the webpage
-As a expat just curious about when to order FX and when is sales in place.
-The output data is clean, ready for Power BI or other tools.
+A simple toolkit for scraping structured data from web pages. Built this to track exchange rates, but the pattern works for any site where you need to click things and grab data.
 
-    Python
+## What It Does
 
-    Selenium
+**Core idea:** Selenium + Pandas = clean CSV data
 
-    Pandas
+- Opens a browser (headless or visible)
+- Clicks buttons / navigates to find data
+- Extracts what you need
+- Saves to CSV with timestamps
 
-How the Script Works (ETL Steps)
+## Example: FX Rate Tracker
 
-    Extract: Python uses Selenium. Clcik buttons and abstract real time rate from a provider.
+The included script (`fx_tracker.py`) pulls live exchange rates from Travelex UK. I built this as an expat watching for good GBP exchange rates.
 
-    Transform: Puts all those rates into a table. Adds date and the amount of testing
+```bash
+python fx_tracker.py
+```
 
-    Load: Takes the clean table. Appends it to the casv file.
+Output goes to `data/rates.csv`:
 
-    Install requirements: See requirements.txt.
+| Date | Day | Month | Year | Currency | Rate | Source | Query_Amount |
+|------|-----|-------|------|----------|------|--------|--------------|
+| 2026-02-22 | 22 | 2 | 2026 | EUR | 1.18 | Travelex | 1000_GBP |
+| 2026-02-22 | 22 | 2 | 2026 | USD | 1.26 | Travelex | 1000_GBP |
 
-    ChromeDriver: need to be installed locally to make the script work.
+## Setup
+
+```bash
+pip install -r requirements.txt
+```
+
+You also need ChromeDriver installed locally. On Mac:
+
+```bash
+brew install chromedriver
+```
+
+On Ubuntu/Debian:
+
+```bash
+sudo apt install chromium-chromedriver
+```
+
+## Project Structure
+
+```
+├── fx_tracker.py          # Travelex scraper example
+├── utils/
+│   └── scraper_base.py    # Reusable Selenium helpers
+├── data/                  # Output goes here
+│   └── rates.csv
+├── requirements.txt
+└── README.md
+```
+
+## Using for Other Sites
+
+The `scraper_base.py` has reusable bits:
+
+```python
+from utils.scraper_base import Scraper, save_to_csv
+
+scraper = Scraper(headless=True)
+driver = scraper.start()
+
+# do your scraping here
+# ...
+
+scraper.close()
+
+# save results
+save_to_csv(data, "data/output.csv", columns=["col1", "col2"])
+```
+
+## What I Learned
+
+- Selenium button clicking is fragile (IDs change, sites update)
+- Always add good wait times for dynamic content
+- CSV appends are simple but effective for time-series data
+- Headless mode breaks some sites (Cloudflare sometimes blocks it)
+
+## Legal Note
+
+Only scrape sites that allow it. Check `robots.txt` and terms of service. This project is for learning and personal use on my own accounts.
+
+## Requirements
+
+- Python 3.8+
+- Chrome browser
+- ChromeDriver
+- pandas
+- selenium
